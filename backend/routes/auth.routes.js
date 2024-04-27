@@ -1,16 +1,18 @@
 import express from "express";
-import { signup } from "../controllers/auth.controller.js";
+import {
+  login,
+  signup,
+  logout,
+  getMe,
+} from "../controllers/auth.controller.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 const router = express.Router();
 //allows us to create mountable route handlers
-router.get("/signup", signup);
 
-router.get("/login", (req, res) => {
-  res.json({ data: "you hit the login end point" });
-});
-
-router.get("/logout", (req, res) => {
-  res.send("you hit the logout end point");
-});
+router.get("/me", protectRoute, getMe);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
 export default router;
 //authRoutes in server.js is same as router here
